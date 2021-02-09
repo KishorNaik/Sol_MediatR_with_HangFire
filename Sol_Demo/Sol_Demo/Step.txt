@@ -1,0 +1,36 @@
+﻿https://codeopinion.com/using-hangfire-and-mediatr-as-a-message-dispatcher/
+
+Step 1:
+Donwload following package.
+Hangfire.Core
+Hangfire.AspNetCore
+Hangfire.SqlServer
+MediatR
+MediatR.Extensions.Microsoft.DependencyInjection
+
+Step 2:
+Implement following class in the Configuration folder.
+MediatorHangFireMessageBridge class
+MediatorExtensions class
+HangfireConfiguratioExtensions class
+
+Step 3:
+	3.1 Go to startUp class, add the following configuration in ConfigureServices method.
+services.AddMediatR(typeof(Startup));
+
+	services.AddHangfire((config) =>
+	{
+		config.UseSqlServerStorage("Data Source=DESKTOP-JM6N8TL;Initial Catalog=HangFireDB;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+		config.UseMediatR();
+	});
+
+services.AddHangfireServer();
+	3.2 Add the following code in Configure method for dashboard
+
+	 app.UseHangfireDashboard();
+
+	 check dashboard
+	 localhost:yourapplicationportno/hangfire
+
+Step 4:
+Implement Command & Handler.
